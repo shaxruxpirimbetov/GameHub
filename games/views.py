@@ -13,12 +13,15 @@ class GameApi(APIView):
 	parser_classes = [MultiPartParser, FormParser, JSONParser]
 	def get_permissions(self):
 		if self.request.method == "GET":
+			if self.request.GET.get("my"):
+				return [permissions.IsAuthenticated()]
 			return [permissions.AllowAny()]
 		else:
 			return [permissions.IsAuthenticated()]
 
 	def get(self, request):
 		game_id = request.GET.get("game_id")
+		my = request.GET.get("my")
 		if game_id:
 			game = Game.objects.filter(id=game_id).first()
 			if not game:
@@ -26,6 +29,11 @@ class GameApi(APIView):
 			game = GameSerializer(game).data
 			game["path"] = f"media/games/{game.get('title').replace(' ','').lower()}/{game.get('run_file')}"
 			return Response(game)
+
+		if my:
+			games = Game.objects.filter(author=request.user).all()
+			games = GameSerializer(games, many=True).data
+			return Response(games)
 		
 		games = Game.objects.all()
 		games = GameSerializer(games, many=True).data
