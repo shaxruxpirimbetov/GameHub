@@ -51,6 +51,10 @@ class GameApi(APIView):
 		if not all([file, title, description, run_file, logo, images]):
 			return Response({"status": False, "message": "Invalid datas"})
 		
+		file_name = str(file)
+		if not file.endswith(".zip"):
+			return Response({"status": False, "message": "Must be .zip"})
+		
 		gamename = title.lower().replace(" ", "")
 		run_path = f"{gamename}/{run_file}"
 		game = Game.objects.filter(gamename=gamename).first()
@@ -70,7 +74,11 @@ class GameApi(APIView):
 			GameImages.objects.create(game=game, image=image)
 		game = GameSerializer(game).data
 		
-		shutil.unpack_archive(file.temporary_file_path(), f"media/games/{gamename}")
+		if hasattr(file, "temporary_file_path"):
+			shutil.unpack_archive(file.temporary_file_path(), f"media/games/{gamename}")
+		else:
+			shutil.unpack_archive(file, f"media/games/{gamename}")
+		
 		return Response(game)
 	
 	def delete(self, request):
@@ -78,7 +86,7 @@ class GameApi(APIView):
 		if not game_id:
 			return Response({"status": False, "message": "game_id are required"})
 		
-		game = Game.objects.filter(id=game_id).first()
+		game = Game.objects.filter(id=game_id, author=request.user).first()
 		if not game:
 			return Response({"status": False, "message": "Game not found"})
 		
