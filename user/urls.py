@@ -6,5 +6,6 @@ urlpatterns = [
     path("played-game/", views.PlayedGameApi.as_view()),
     path("check-token/", views.CheckTokenApi.as_view()),
     path("page/", views.PageApi.as_view()),
+    path("page-images/", views.PageImagesApi.as_view()),
     
 ]

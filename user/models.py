@@ -15,3 +15,7 @@ class PlayedGame(models.Model):
     class Meta:
         verbose_name = "Played Game"
         verbose_name_plural = "Played Games"
+
+
+class PageImage(models.Model):
+	image = models.ImageField(upload_to="app_images/")

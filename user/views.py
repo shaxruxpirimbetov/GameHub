@@ -67,3 +67,18 @@ class PageApi(APIView):
 		return Response({"status": True, "message": "Page saved successfully"})
 
 
+class PageImagesApi(APIView):
+	permission_classes = [permissions.AllowAny]
+	def get(self, request):
+		pages = PageImage.objects.all()
+		pages = PageImageSerializer(pages, many=True).data
+		return Response(pages)
+	
+	def post(self, request):
+		images = request.FILES.getlist("images")
+		for image in images:
+			PageImage.objects.create(image=image)
+		
+		return Response({"status": True, "message": "Yah"})
+	
+
