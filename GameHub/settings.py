@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-@hfgx5zn9pal7ho$-xa7!*4!9ac$o9%to#o^cmbsr-sbp$-(3z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["opensale.onrender.com"]
+ALLOWED_HOSTS = ["shaxcoder.pythonanywhere.com"]
 ALLOWED_HOSTS = []
 CORS_ALLOW_ALL_ORIGINS=True
 X_FRAME_OPTIONS = 'ALLOWALL'

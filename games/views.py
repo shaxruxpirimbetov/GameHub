@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 import shutil
 from .models import Game, GameImages
 from .serializers import GameSerializer
+from .funcs import search
 
 
 class GameApi(APIView):
@@ -22,6 +23,7 @@ class GameApi(APIView):
 	def get(self, request):
 		game_id = request.GET.get("game_id")
 		my = request.GET.get("my")
+		query = request.GET.get("q")
 		if game_id:
 			game = Game.objects.filter(id=game_id).first()
 			if not game:
@@ -34,6 +36,12 @@ class GameApi(APIView):
 			games = Game.objects.filter(author=request.user).all()
 			games = GameSerializer(games, many=True).data
 			return Response(games)
+		
+		if query:
+			games = Game.objects.all()
+			games = GameSerializer(games, many=True).data
+			result = search(query, games)
+			return Response(result)
 		
 		games = Game.objects.all()
 		games = GameSerializer(games, many=True).data
