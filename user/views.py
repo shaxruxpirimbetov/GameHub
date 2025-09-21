@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer, PlayedGameSerializer
 from .models import PlayedGame
 from games.models import Game
+page = ""
+
 
 class RegisterApi(APIView):
 	permission_classes = [permissions.AllowAny]
@@ -47,3 +49,21 @@ class CheckTokenApi(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request):
 		return Response({"status": True})
+
+
+class PageApi(APIView):
+	permission_classes = [permissions.AllowAny]
+	def get(self, request):
+		global page
+		return Response({"status": True, "message": "page in page", "page": page})
+	
+	def post(self, request):
+		global page
+		page = request.data.get("page")
+		if not page:
+			return Response({"status": False, "message": "Page are required"})
+		
+		page = page
+		return Response({"status": True, "message": "Page saved successfully"})
+
+

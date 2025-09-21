@@ -60,7 +60,7 @@ class GameApi(APIView):
 			return Response({"status": False, "message": "Invalid datas"})
 		
 		file_name = str(file)
-		if not file.endswith(".zip"):
+		if not file_name.endswith(".zip"):
 			return Response({"status": False, "message": "Must be .zip"})
 		
 		gamename = title.lower().replace(" ", "")
