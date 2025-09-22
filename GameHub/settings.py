@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-@hfgx5zn9pal7ho$-xa7!*4!9ac$o9%to#o^cmbsr-sbp$-(3z
 DEBUG = True
 
 ALLOWED_HOSTS = ["shaxcoder.pythonanywhere.com"]
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 CORS_ALLOW_ALL_ORIGINS=True
 X_FRAME_OPTIONS = 'ALLOWALL'
 

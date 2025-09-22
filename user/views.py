@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from rest_framework import permissions
 from rest_framework.views import APIView
-from .serializers import UserSerializer, PlayedGameSerializer
-from .models import PlayedGame
+from .serializers import UserSerializer, PlayedGameSerializer, PageImageSerializer
+from .models import PlayedGame, PageImage
 from games.models import Game
 page = ""
 
@@ -69,6 +69,7 @@ class PageApi(APIView):
 
 class PageImagesApi(APIView):
 	permission_classes = [permissions.AllowAny]
+	parser_classes = [MultiPartParser, FormParser, JSONParser]
 	def get(self, request):
 		pages = PageImage.objects.all()
 		pages = PageImageSerializer(pages, many=True).data
